@@ -16,15 +16,11 @@ __ssize_t read(int __fd, void *__buf, size_t __nbytes) {
 	return real_read(__fd, __buf, __nbytes);
 }
 
-/*
-void *malloc(size_t size) {
-    char buf[32];
-    static void *(*real_malloc)(size_t) = NULL;
-    if (real_malloc == NULL) {
-        real_malloc = dlsym(RTLD_NEXT, "malloc");
-    }
-    sprintf(buf, "malloc called, size = %zu\n", size);
-    write(2, buf, strlen(buf));
-    return real_malloc(size);
+__ssize_t write(int __fd, const void *__buf, size_t __n) {
+	printf("Calling write: size %ld\n", __n);
+	static __ssize_t (*real_write)(int, const void*, size_t) = NULL;
+	if (real_write == NULL) {
+		real_write = dlsym(RTLD_NEXT, "write");
+	}
+	return real_write(__fd, __buf, __n);
 }
-*/
