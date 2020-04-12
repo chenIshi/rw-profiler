@@ -53,12 +53,13 @@ Bool reader() {
 }
 
 Bool writer() {
-	int out_file  = open("output.txt", O_WRONLY | O_CREAT | O_TRUNC);
+	int out_file  = open("output.txt", O_RDWR | O_CREAT | O_TRUNC, 0666);
 	if (out_file < 0) {
 		fprintf(stderr, "error in creating output file\n");
 		return false;
 	} else {
 		if (write(out_file, &buf, 1024) < 0) {
+			//int a = malloc(1);
 			fprintf(stderr, "error in write function call\n");
 			close(out_file);
 			return false;
